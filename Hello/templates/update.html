@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+    <h2>Update Contact</h2>
+    <form method="post" action="/update/{{contact.id}}">
+        {% csrf_token %}
+        <input type="text" name="name" value="{{contact.name}}" class="form-control my-2">
+        <input type="email" name="email" value="{{contact.email}}" class="form-control my-2">
+        <input type="text" name="phone" value="{{contact.phone}}" class="form-control my-2">
+        <textarea name="desc" class="form-control my-2">{{contact.desc}}</textarea>
+        <button class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock body %}
