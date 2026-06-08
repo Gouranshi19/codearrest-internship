@@ -25,20 +25,19 @@ SECRET_KEY = 'django-insecure-%5mk-*1nq!sdmb-i_$-jftjy-q62b#gpusxaq__$1966+)i(n#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['codewithharry.com', 'programmingwithharry.com', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+    'home',
 ]
 
 MIDDLEWARE = [
