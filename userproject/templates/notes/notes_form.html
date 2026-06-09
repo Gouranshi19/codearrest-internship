@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Note Form</title>
+</head>
+<body>
+    <h1>{% if note %}Edit Note{% else %}Add Note{% endif %}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Title:</label><br>
+        <input type="text" name="title" value="{{ note.title }}" required><br><br>
+        <label>Content:</label><br>
+        <textarea name="content" required>{{ note.content }}</textarea><br><br>
+        <button type="submit">{% if note %}Update{% else %}Save{% endif %}</button>
+    </form>
+    <br>
+    <a href="/notes/">Back to Notes</a>
+</body>
+</html>

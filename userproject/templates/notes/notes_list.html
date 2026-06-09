@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Notes</title>
+</head>
+<body>
+    <h1>My Notes</h1>
+    <a href="/notes/create/">Add New Note</a>
+    <br><br>
+    {% for note in notes %}
+        <div>
+            <h3>{{ note.title }}</h3>
+            <p>{{ note.content }}</p>
+            <a href="/notes/edit/{{ note.id }}/">Edit</a>
+            <a href="/notes/delete/{{ note.id }}/">Delete</a>
+        </div>
+        <hr>
+    {% empty %}
+        <p>No notes yet!</p>
+    {% endfor %}
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>
