@@ -6,8 +6,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer
 
-#potterharry
-#gk123419
 # Create your views here.
 def index(request):
     print(request.user)
