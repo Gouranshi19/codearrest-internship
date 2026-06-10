@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import NoteSerializer
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -41,10 +42,34 @@ def note_delete(request, id):
 
 @api_view(['GET'])
 def notes_api(request):
-<<<<<<< HEAD
     notes = Note.objects.all()  
-=======
-    notes = Note.objects.all() 
->>>>>>> 0f21de204cc5f60d58496be50055fecfbbf0f4ac
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def note_create_api(request):
+    title = request.data.get('title')
+    content = request.data.get('content')
+    user = User.objects.first()  
+    Note.objects.create(user=user, title=title, content=content)
+    return Response({'message': 'Note created'})
+
+@api_view(['DELETE'])
+def note_delete_api(request, id):
+    note = Note.objects.get(id=id)
+    note.delete()
+    return Response({'message': 'Note deleted'})
+
+@api_view(['GET'])
+def note_detail_api(request, id):
+    note = Note.objects.get(id=id)
+    serializer = NoteSerializer(note)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def note_update_api(request, id):
+    note = Note.objects.get(id=id)
+    note.title = request.data.get('title')
+    note.content = request.data.get('content')
+    note.save()
+    return Response({'message': 'Note updated'})
