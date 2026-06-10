@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout, authenticate, login
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import UserSerializer
+from django.http import JsonResponse
+
 
 # Create your views here.
 def index(request):
@@ -48,10 +47,8 @@ def signup(request):
 
 
 
-@api_view(['GET'])
-def getUsers(request):
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+def test_users(request):
+    users = User.objects.all().values()
+    return JsonResponse(list(users), safe=False)
 
 

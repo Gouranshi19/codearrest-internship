@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Note
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from .serializers import NoteSerializer
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+import json
 
 
 # Create your views here.
@@ -39,37 +38,79 @@ def note_delete(request, id):
     note.delete()
     return redirect('/notes')
 
-
-@api_view(['GET'])
+@csrf_exempt
 def notes_api(request):
-    notes = Note.objects.all()  
-    serializer = NoteSerializer(notes, many=True)
-    return Response(serializer.data)
+    notes = list(Note.objects.values())
+    return JsonResponse(notes, safe=False)
 
-@api_view(['POST'])
+@csrf_exempt
 def note_create_api(request):
-    title = request.data.get('title')
-    content = request.data.get('content')
-    user = User.objects.first()  
-    Note.objects.create(user=user, title=title, content=content)
-    return Response({'message': 'Note created'})
+    if request.method == "POST":
+        data = json.loads(request.body)
 
-@api_view(['DELETE'])
+        note = Note.objects.create(
+            user_id=1,
+            title=data.get("title"),
+            content=data.get("content")
+        )
+
+        return JsonResponse({
+            "message": "Note created",
+            "id": note.id
+        })
+
+    return JsonResponse({'message': 'Note created'})
+
+@csrf_exempt
 def note_delete_api(request, id):
-    note = Note.objects.get(id=id)
-    note.delete()
-    return Response({'message': 'Note deleted'})
+    try:
+        note = Note.objects.get(id=id)
+        note.delete()
 
-@api_view(['GET'])
+        return JsonResponse({
+            "message": "Note deleted"
+        })
+
+    except Note.DoesNotExist:
+        return JsonResponse({
+            "error": "Note not found"
+        }, status=404)
+
+@csrf_exempt
 def note_detail_api(request, id):
-    note = Note.objects.get(id=id)
-    serializer = NoteSerializer(note)
-    return Response(serializer.data)
+    try:
+        note = Note.objects.get(id=id)
 
-@api_view(['PUT'])
+        data = {
+            "id": note.id,
+            "title": note.title,
+            "content": note.content,
+            "user_id": note.user.id,
+            "created_at": note.created_at,
+        }
+
+        return JsonResponse(data)
+
+    except Note.DoesNotExist:
+        return JsonResponse({"error": "Note not found"}, status=404)
+
+@csrf_exempt
 def note_update_api(request, id):
-    note = Note.objects.get(id=id)
-    note.title = request.data.get('title')
-    note.content = request.data.get('content')
-    note.save()
-    return Response({'message': 'Note updated'})
+    if request.method == "PUT":
+        try:
+            note = Note.objects.get(id=id)
+
+            data = json.loads(request.body)
+
+            note.title = data.get("title")
+            note.content = data.get("content")
+            note.save()
+
+            return JsonResponse({
+                "message": "Note updated"
+            })
+
+        except Note.DoesNotExist:
+            return JsonResponse({
+                "error": "Note not found"
+            }, status=404)

@@ -1,4 +1,9 @@
 function Login() {
-  return <h1>Login Page</h1>;
+  return (
+    <div className="container mt-5">
+      <h2>Login Page</h2>
+    </div>
+  );
 }
+
 export default Login;

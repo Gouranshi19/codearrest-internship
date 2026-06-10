@@ -6,18 +6,7 @@ function AddNote() {
     const [content, setContent] = useState("");
     const navigate = useNavigate();
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie) {
-        document.cookie.split(";").forEach((cookie) => {
-            cookie = cookie.trim();
-            if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-            }
-        });
-        }
-        return cookieValue;
-    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -33,34 +22,26 @@ function AddNote() {
     };
 
     return (
-        <div style={{ fontFamily: "Arial", minHeight: "100vh", background: "#f8f9fa" }}>
-        <nav style={{ background: "#343a40", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ color: "white", fontSize: "20px", fontWeight: "bold" }}> Notes App</span>
-            <button onClick={() => navigate("/notes")} style={{ background: "transparent", border: "1px solid white", color: "white", padding: "6px 14px", borderRadius: "4px", cursor: "pointer" }}>Back</button>
-        </nav>
+        <div className="container mt-5">
+        <h2>Add Note</h2>
 
-        <div style={{ maxWidth: "500px", margin: "40px auto", background: "white", padding: "32px", borderRadius: "8px", border: "1px solid #ddd" }}>
-            <h2 style={{ marginBottom: "24px" }}>Add New Note</h2>
-            <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-                style={{ width: "100%", padding: "10px", marginBottom: "16px", borderRadius: "6px", border: "1px solid #ddd", boxSizing: "border-box" }}
-            />
-            <textarea
-                placeholder="Content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-                rows="5"
-                style={{ width: "100%", padding: "10px", marginBottom: "16px", borderRadius: "6px", border: "1px solid #ddd", boxSizing: "border-box" }}
-            />
-            <button type="submit" style={{ width: "100%", padding: "10px", background: "#198754", color: "white", border: "none", borderRadius: "6px", fontSize: "16px", cursor: "pointer" }}>Save Note</button>
-            </form>
-        </div>
+        <input
+            className="form-control mb-2"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+        />
+
+        <textarea
+            className="form-control mb-2"
+            placeholder="Content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+        />
+
+        <button className="btn btn-success" onClick={handleSubmit}>
+            Save Note
+        </button>
         </div>
     );
 }
