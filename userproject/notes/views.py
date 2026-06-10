@@ -41,6 +41,10 @@ def note_delete(request, id):
 
 @api_view(['GET'])
 def notes_api(request):
+<<<<<<< HEAD
     notes = Note.objects.all()  
+=======
+    notes = Note.objects.all() 
+>>>>>>> 0f21de204cc5f60d58496be50055fecfbbf0f4ac
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
