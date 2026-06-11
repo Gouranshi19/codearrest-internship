@@ -10,6 +10,7 @@ function Notes() {
         .then(res => res.json())
         .then(data => setNotes(data));
     }, []);
+    
 const handleDelete = (id) => {
     fetch(`http://127.0.0.1:8000/notes/api/delete/${id}/`)
         .then(res => res.json())

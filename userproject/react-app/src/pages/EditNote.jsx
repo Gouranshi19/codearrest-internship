@@ -18,19 +18,6 @@ function EditNote() {
         });
     }, [id]);
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie) {
-        document.cookie.split(";").forEach((cookie) => {
-            cookie = cookie.trim();
-            if (cookie.startsWith(name + "=")) {
-            cookieValue = decodeURIComponent(cookie.split("=")[1]);
-            }
-        });
-        }
-        return cookieValue;
-    }
-
     const handleSubmit = (e) => {
     e.preventDefault();
 
