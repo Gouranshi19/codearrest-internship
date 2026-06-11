@@ -46,9 +46,3 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-
-def test_users(request):
-    users = User.objects.all().values()
-    return JsonResponse(list(users), safe=False)
-
-
